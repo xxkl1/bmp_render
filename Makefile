@@ -12,7 +12,7 @@ endif
 CXX = clang++
 
 # Compiler flags
-CXXFLAGS = -std=c++17 -Iinclude -I${SFML_DIR}/include
+CXXFLAGS = -std=c++17 -Iinclude -I${SFML_DIR}/include -Isrc
 
 # Linker flags
 LDFLAGS = -L${SFML_DIR}/lib -lsfml-graphics -lsfml-window -lsfml-system -rpath @executable_path/../${SFML_DIR}/lib

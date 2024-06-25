@@ -2,28 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <SFML/Graphics.hpp>
-
-
-std::vector<char> readFile (const std::string& filePath) {
-    std::ifstream inputFile(filePath, std::ios::binary);
-
-    if (!inputFile) {
-        throw std::invalid_argument("can't open file");
-    }
-
-    std::vector<char> buffer((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
-
-    inputFile.close();
-
-    return buffer;
-}
-
-void getBmpContent (const std::vector<char>& charVector) {
-
-}
-
-void getRenderXyList (const std::vector<char>& charVector) {
-}
+#include <bmp_utils.hpp>
+#include <bmp_parser.hpp>
 
 int main() {
     std::vector<char> buffer = readFile("./image_test/16bit_color_small.bmp");
