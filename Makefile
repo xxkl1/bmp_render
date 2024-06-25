@@ -1,9 +1,9 @@
 ARCH := $(shell uname -m)
 
 ifeq ($(ARCH), x86_64)
-    SFML_LIB_DIR := sfml/lib/x86-64
+    SFML_DIR := third_party/sfml_2.6.1_x86_64
 else ifeq ($(ARCH), arm64)
-    SFML_LIB_DIR := sfml/lib/arm64
+    SFML_DIR := third_party/sfml_2.6.1_arm64
 else
     $(error Unsupported architecture: $(ARCH))
 endif
@@ -12,10 +12,10 @@ endif
 CXX = clang++
 
 # Compiler flags
-CXXFLAGS = -std=c++17 -Iinclude -Isfml/include
+CXXFLAGS = -std=c++17 -Iinclude -I${SFML_DIR}/include
 
 # Linker flags
-LDFLAGS = -L${SFML_LIB_DIR} -lsfml-graphics -lsfml-window -lsfml-system -rpath @executable_path/../${SFML_LIB_DIR}
+LDFLAGS = -L${SFML_DIR}/lib -lsfml-graphics -lsfml-window -lsfml-system -rpath @executable_path/../${SFML_DIR}/lib
 
 # Directories
 SRC_DIR = src
