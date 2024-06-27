@@ -1,4 +1,5 @@
 #include <bmp_utils.hpp>
+#include <bmp_parser.hpp>
 
 template<typename... Args>
 void log(Args&&... args) {

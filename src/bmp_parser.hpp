@@ -5,7 +5,10 @@
 #include <iostream>
 #include <fstream>
 #include <bmp_utils.hpp>
+struct Bmp {
+    size_t contentStart;
+};
 
-void bmpParser (const std::vector<char>& bmpData);
+Bmp bmpParser (const std::vector<char>& bmpData);
 
 #endif

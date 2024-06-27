@@ -5,6 +5,7 @@
 #include <bmp_utils.hpp>
 #include <bmp_parser.hpp>
 #include <test_to_number.hpp>
+#include <test_bmp_parser.hpp>
 
 int main() {
     // std::vector<char> buffer = readFile("./image_test/16bit_color_small.bmp");
@@ -13,6 +14,7 @@ int main() {
 
     // TODO: 迁移到test目录
     testToNumber();
+    testBmpPaser();
 
     // sf::RenderWindow window(sf::VideoMode(800, 600), "bmp viewer");
 
