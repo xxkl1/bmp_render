@@ -7,4 +7,11 @@
 
 std::vector<char> readFile (const std::string& filePath);
 
+std::vector<char> getSubVector(const std::vector<char>& vec, size_t start, size_t end);
+
+size_t toNumber (const std::vector<char>& chars);
+
+template<typename T>
+void ensure(T result, T expect, const char* message);
+
 #endif
