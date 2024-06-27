@@ -1,9 +1,9 @@
-ARCH := $(shell uname -m)
+ARCH = $(shell uname -m)
 
 ifeq ($(ARCH), x86_64)
-    SFML_DIR := third_party/sfml_2.6.1_x86_64
+    SFML_DIR = third_party/sfml_2.6.1_x86_64
 else ifeq ($(ARCH), arm64)
-    SFML_DIR := third_party/sfml_2.6.1_arm64
+    SFML_DIR = third_party/sfml_2.6.1_arm64
 else
     $(error Unsupported architecture: $(ARCH))
 endif
