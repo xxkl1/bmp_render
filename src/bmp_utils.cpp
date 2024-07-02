@@ -20,6 +20,9 @@ std::vector<char> readFile (const std::string& filePath) {
     return buffer;
 }
 
+/**
+ * 截取std::vector<char>，star - end，不包含end
+ */
 std::vector<char> getSubVector(const std::vector<char>& vec, size_t start, size_t end) {
     if (start >= end || end > vec.size()) {
         throw std::out_of_range("Invalid range.");
