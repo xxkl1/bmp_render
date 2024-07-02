@@ -57,3 +57,17 @@ void ensure(T result, T expect, const char* message) {
     }
 }
 template void ensure<size_t>(size_t, size_t, const char* message);
+
+
+template<typename T>
+std::vector<std::vector<T>> chunkList (const std::vector<T>& list, size_t lenChunk) {
+    std::vector<std::vector<T>> result;
+    for (size_t i = 0; i < list.size(); ++i) {
+        if (i % lenChunk == 0) {
+            std::vector<T> chunk = getSubVector(list, i, i + lenChunk);
+            result.push_back(chunk);
+        }
+    }
+    return result;
+}
+template std::vector<std::vector<char>> chunkList (const std::vector<char>& list, size_t lenChunk);

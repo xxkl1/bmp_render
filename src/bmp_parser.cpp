@@ -1,4 +1,5 @@
 #include <bmp_parser.hpp>
+#include <cmath>
 
 size_t getBmpContentStart (const std::vector<char>& bmpData) {
     std::vector<char> chars = getSubVector(bmpData, 0x0a, 0x0a + 4);
@@ -55,6 +56,31 @@ size_t getSizeDIB (const std::vector<char>& bmpData) {
     return toNumber(chars);
 }
 
+size_t getLenPalette (const std::vector<char>& bmpData, size_t deep) {
+    std::vector<char> chars = getSubVector(bmpData, 0x2e, 0x2e + 4);
+    size_t len = toNumber(chars);
+    if (len == 0) {
+        len = pow(2, deep);
+    }
+    return len;
+}
+
+void getPalette (const std::vector<char>& bmpData, size_t sizeDIB, size_t deep) {
+    // 调色板一个色为4个字节
+    size_t lenBytesOneColor = 4;
+    size_t lenPalette = getLenPalette(bmpData, deep);
+
+    // TODO: 删除这个临时测试
+    size_t expectLenPalette = 16;
+    ensure(lenPalette, expectLenPalette, "test lenPalette");
+    
+    // 一般来说调色板的开始是DIB头的结束，0x0e是DIB头的开始
+    size_t start = 0x0e + sizeDIB;
+    size_t end = start + lenPalette * lenBytesOneColor;
+    std::vector<char> l = getSubVector(bmpData, start, end);
+    std::vector<std::vector<char>> chunks = chunkList<char>(l, lenBytesOneColor);
+}
+
 Bmp bmpParser (const std::vector<char>& bmpData) {
     size_t contentStart = getBmpContentStart(bmpData);
     std::vector<char> content = getContent(bmpData, contentStart);
@@ -65,6 +91,7 @@ Bmp bmpParser (const std::vector<char>& bmpData) {
     size_t deepFormat = getDeepFormat(bmpData);
     size_t deep = getDeep(deepContent, deepFormat);
     size_t sizeDIB = getSizeDIB(bmpData);
+    getPalette(bmpData, sizeDIB, deep);
 
     Bmp bmp = {
         contentStart,
