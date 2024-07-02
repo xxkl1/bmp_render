@@ -29,7 +29,7 @@ std::vector<char> getContent (const std::vector<char>& bmpData, size_t contentSt
 }
 
 // 获取色深
-size_t getDeep (const std::vector<char>& content, size_t width, size_t height) {
+size_t getDeepContent (const std::vector<char>& content, size_t width, size_t height) {
     size_t contentLen = content.size();
     size_t countPixels =  width * height;
     size_t bitsOneByte = 8;
@@ -41,14 +41,30 @@ size_t getDeepFormat (const std::vector<char>& bmpData) {
     return toNumber(chars);
 }
 
+// 获取真正渲染使用的色深度
+size_t getDeep (size_t deepContent, size_t deepFormat) {
+    if (deepContent > 8 || deepContent <= 16) {
+        return deepFormat;
+    } else {
+        return deepContent;
+    }
+}
+
+size_t getSizeDIB (const std::vector<char>& bmpData) {
+    std::vector<char> chars = getSubVector(bmpData, 0x0e, 0x0e + 4);
+    return toNumber(chars);
+}
+
 Bmp bmpParser (const std::vector<char>& bmpData) {
     size_t contentStart = getBmpContentStart(bmpData);
     std::vector<char> content = getContent(bmpData, contentStart);
     size_t compression = getBmpCompression(bmpData);
     size_t width = getBmpWidth(bmpData);
     size_t height = getBmpHeight(bmpData);
-    size_t deep = getDeep(content, width, height);
+    size_t deepContent = getDeepContent(content, width, height);
     size_t deepFormat = getDeepFormat(bmpData);
+    size_t deep = getDeep(deepContent, deepFormat);
+    size_t sizeDIB = getSizeDIB(bmpData);
 
     Bmp bmp = {
         contentStart,
@@ -57,7 +73,7 @@ Bmp bmpParser (const std::vector<char>& bmpData) {
         width,
         height,
         deep,
-        deepFormat,
+        sizeDIB,
     };
 
     return bmp;

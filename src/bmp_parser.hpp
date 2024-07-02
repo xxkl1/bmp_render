@@ -12,7 +12,7 @@ struct Bmp {
     size_t width;
     size_t height;
     size_t deep;
-    size_t deepFormat;
+    size_t sizeDIB;
 };
 
 Bmp bmpParser (const std::vector<char>& bmpData);

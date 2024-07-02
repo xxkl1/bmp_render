@@ -36,15 +36,15 @@ void testBmpParserHeight (const Bmp msg) {
 }
 
 void testBmpParserDeep (const Bmp msg) {
-    size_t expect = 16;
+    size_t expect = 4;
     size_t result = msg.deep;
     ensure<size_t>(result, expect, "testBmpParser deep");
 }
 
-void testBmpParserDeepFormat (const Bmp msg) {
-    size_t expect = 4;
-    size_t result = msg.deepFormat;
-    ensure<size_t>(result, expect, "testBmpParser deepFormat");
+void testBmpSizeDIB (const Bmp msg) {
+    size_t expect = 124;
+    size_t result = msg.sizeDIB;
+    ensure<size_t>(result, expect, "testBmpParser size DIB");
 }
 
 void testBmpParser () {
@@ -55,5 +55,5 @@ void testBmpParser () {
     testBmpParserWidth(msg);
     testBmpParserHeight(msg);
     testBmpParserDeep(msg);
-    testBmpParserDeepFormat(msg);
+    testBmpSizeDIB(msg);
 }
