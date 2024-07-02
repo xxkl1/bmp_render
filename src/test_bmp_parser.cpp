@@ -5,13 +5,13 @@ Bmp getBmpMsg () {
     return bmpParser(buffer);
 }
 
-void testBmpPaserContentStart (const Bmp msg) {
+void testBmpParserContentStart (const Bmp msg) {
     size_t expect = 0xca;
     size_t result = msg.contentStart;
-    ensure<size_t>(result, expect, "testBmpPaser contentStart");
+    ensure<size_t>(result, expect, "testBmpParser contentStart");
 }
 
-void testBmpPaser () {
+void testBmpParser () {
     Bmp msg = getBmpMsg();
-    testBmpPaserContentStart(msg);
+    testBmpParserContentStart(msg);
 }

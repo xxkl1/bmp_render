@@ -14,7 +14,7 @@ int main() {
 
     // TODO: 迁移到test目录
     testToNumber();
-    testBmpPaser();
+    testBmpParser();
 
     // sf::RenderWindow window(sf::VideoMode(800, 600), "bmp viewer");
 

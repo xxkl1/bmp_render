@@ -4,6 +4,6 @@
 #include <bmp_parser.hpp>
 #include <bmp_utils.hpp>
 
-void testBmpPaser ();
+void testBmpParser ();
 
 #endif
