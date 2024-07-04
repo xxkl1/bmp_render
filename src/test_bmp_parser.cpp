@@ -47,6 +47,29 @@ void testBmpSizeDIB (const Bmp msg) {
     ensure<size_t>(result, expect, "testBmpParser size DIB");
 }
 
+void testPalette (const Bmp msg) {
+    std::vector<std::string> expect = {
+        "#000000",
+        "#ff0000",
+        "#00ff00",
+        "#0000ff",
+        "#000000",
+        "#000000",
+        "#000000",
+        "#000000",
+        "#000000",
+        "#000000",
+        "#000000",
+        "#000000",
+        "#000000",
+        "#000000",
+        "#000000",
+        "#000000",
+    };
+    std::vector<std::string> result = msg.palette;
+    ensure<std::vector<std::string>>(result, expect, "testBmpParser palette");
+}
+
 void testBmpParser () {
     Bmp msg = getBmpMsg();
     testBmpParserContentStart(msg);
@@ -56,4 +79,5 @@ void testBmpParser () {
     testBmpParserHeight(msg);
     testBmpParserDeep(msg);
     testBmpSizeDIB(msg);
+    testPalette(msg);
 }

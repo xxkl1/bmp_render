@@ -56,8 +56,25 @@ void ensure(T result, T expect, const char* message) {
         std::cout << message << " test fail" << std::endl;
     }
 }
-template void ensure<size_t>(size_t, size_t, const char* message);
+template void ensure<size_t>(size_t result, size_t expect, const char* message);
 
+// TODO: 想办法去掉泛型的使用
+template <>
+void ensure<std::vector<std::string>>(std::vector<std::string> result, std::vector<std::string> expect, const char* message) {
+    if (result.size() != expect.size()) {
+        std::cout << message << " test fail" << std::endl;
+    }
+    for (size_t i = 0; i < result.size(); ++i) {
+        std::string curExpect = expect[i];
+        std::string curResult = result[i];
+        if (curExpect != curResult) {
+            // TODO: 去除重复代码
+            std::cout << message << " test fail" << std::endl;
+            return;
+        }
+    }
+    std::cout << message << " tes success" << std::endl;
+}
 
 template<typename T>
 std::vector<std::vector<T>> chunkList (const std::vector<T>& list, size_t lenChunk) {
@@ -71,3 +88,9 @@ std::vector<std::vector<T>> chunkList (const std::vector<T>& list, size_t lenChu
     return result;
 }
 template std::vector<std::vector<char>> chunkList (const std::vector<char>& list, size_t lenChunk);
+
+std::string charToHexString(char c) {
+    std::stringstream ss;
+    ss << std::hex << std::setw(2) << std::setfill('0') << (int)(unsigned char)c;
+    return ss.str();
+}

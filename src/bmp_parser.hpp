@@ -13,6 +13,7 @@ struct Bmp {
     size_t height;
     size_t deep;
     size_t sizeDIB;
+    std::vector<std::string> palette;
 };
 
 Bmp bmpParser (const std::vector<char>& bmpData);

@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 std::vector<char> readFile (const std::string& filePath);
 
@@ -16,5 +17,7 @@ void ensure(T result, T expect, const char* message);
 
 template<typename T>
 std::vector<std::vector<T>> chunkList (const std::vector<T>& list, size_t lenChunk);
+
+std::string charToHexString(char c);
 
 #endif

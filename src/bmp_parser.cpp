@@ -65,7 +65,11 @@ size_t getLenPalette (const std::vector<char>& bmpData, size_t deep) {
     return len;
 }
 
-void getPalette (const std::vector<char>& bmpData, size_t sizeDIB, size_t deep) {
+std::string colorStrRender (const std::vector<char>& chunk) {
+    return "#" + charToHexString(chunk[2]) + charToHexString(chunk[1]) + charToHexString(chunk[0]);
+}
+
+std::vector<std::string> getPalette (const std::vector<char>& bmpData, size_t sizeDIB, size_t deep) {
     // 调色板一个色为4个字节
     size_t lenBytesOneColor = 4;
     size_t lenPalette = getLenPalette(bmpData, deep);
@@ -79,6 +83,12 @@ void getPalette (const std::vector<char>& bmpData, size_t sizeDIB, size_t deep) 
     size_t end = start + lenPalette * lenBytesOneColor;
     std::vector<char> l = getSubVector(bmpData, start, end);
     std::vector<std::vector<char>> chunks = chunkList<char>(l, lenBytesOneColor);
+
+    std::vector<std::string> r;
+    for (const std::vector<char> chunk : chunks) {
+        r.push_back(colorStrRender(chunk));
+    }
+    return r;
 }
 
 Bmp bmpParser (const std::vector<char>& bmpData) {
@@ -91,8 +101,7 @@ Bmp bmpParser (const std::vector<char>& bmpData) {
     size_t deepFormat = getDeepFormat(bmpData);
     size_t deep = getDeep(deepContent, deepFormat);
     size_t sizeDIB = getSizeDIB(bmpData);
-    getPalette(bmpData, sizeDIB, deep);
-
+    std::vector<std::string> palette = getPalette(bmpData, sizeDIB, deep);
     Bmp bmp = {
         contentStart,
         content,
@@ -101,6 +110,7 @@ Bmp bmpParser (const std::vector<char>& bmpData) {
         height,
         deep,
         sizeDIB,
+        palette,
     };
 
     return bmp;
