@@ -63,6 +63,7 @@ template <>
 void ensure<std::vector<std::string>>(std::vector<std::string> result, std::vector<std::string> expect, const char* message) {
     if (result.size() != expect.size()) {
         std::cout << message << " test fail" << std::endl;
+        return;
     }
     for (size_t i = 0; i < result.size(); ++i) {
         std::string curExpect = expect[i];
