@@ -91,6 +91,19 @@ std::vector<std::string> getPalette (const std::vector<char>& bmpData, size_t si
     return r;
 }
 
+std::vector<std::string> getRenderList (const std::vector<char> &content, const std::vector<std::string> &palette) {
+    std::vector<char> l;
+    for (const char c : content) {
+        l.push_back(c & 0x0F);
+        l.push_back(c >> 4);
+    }
+    std::vector<std::string> r;
+    for (const char c : l) {
+        r.push_back(palette[c]);
+    }
+    return r;
+}
+
 Bmp bmpParser (const std::vector<char>& bmpData) {
     size_t contentStart = getBmpContentStart(bmpData);
     std::vector<char> content = getContent(bmpData, contentStart);
@@ -102,6 +115,8 @@ Bmp bmpParser (const std::vector<char>& bmpData) {
     size_t deep = getDeep(deepContent, deepFormat);
     size_t sizeDIB = getSizeDIB(bmpData);
     std::vector<std::string> palette = getPalette(bmpData, sizeDIB, deep);
+    std::vector<std::string> renderList = getRenderList(content, palette);
+    // TODO: 添加fixContent，现在得到的content长度是8，不正确，需要变成2
     Bmp bmp = {
         contentStart,
         content,
