@@ -38,7 +38,7 @@ int main() {
                 window.close();
         }
 
-        window.clear();
+        window.clear(sf::Color(231, 222, 205));
 
         window.draw(points);
 
