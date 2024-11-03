@@ -69,7 +69,7 @@ std::string colorStrRender (const std::vector<char>& chunk) {
     return "#" + charToHexString(chunk[2]) + charToHexString(chunk[1]) + charToHexString(chunk[0]);
 }
 
-std::vector<std::string> getPalette (const std::vector<char>& bmpData, size_t sizeDIB, size_t deep) {
+std::vector<std::vector<char>> getPalette (const std::vector<char>& bmpData, size_t sizeDIB, size_t deep) {
     // 调色板一个色为4个字节
     size_t lenBytesOneColor = 4;
     size_t lenPalette = getLenPalette(bmpData, deep);
@@ -84,20 +84,20 @@ std::vector<std::string> getPalette (const std::vector<char>& bmpData, size_t si
     std::vector<char> l = getSubVector(bmpData, start, end);
     std::vector<std::vector<char>> chunks = chunkList<char>(l, lenBytesOneColor);
 
-    std::vector<std::string> r;
+    std::vector<std::vector<char>> r;
     for (const std::vector<char> chunk : chunks) {
-        r.push_back(colorStrRender(chunk));
+        r.push_back(chunk);
     }
     return r;
 }
 
-std::vector<std::string> getRenderList (const std::vector<char> &content, const std::vector<std::string> &palette) {
+std::vector<std::vector<char>> getPixels (const std::vector<char> &content, const std::vector<std::vector<char>> &palette) {
     std::vector<char> l;
     for (const char c : content) {
-        l.push_back(c >> 4);
         l.push_back(c & 0x0F);
+        l.push_back(c >> 4);
     }
-    std::vector<std::string> r;
+    std::vector<std::vector<char>> r;
     for (const char c : l) {
         r.push_back(palette[c]);
     }
@@ -134,9 +134,9 @@ Bmp bmpParser (const std::vector<char>& bmpData) {
     size_t deepFormat = getDeepFormat(bmpData);
     size_t deep = getDeep(deepContent, deepFormat);
     size_t sizeDIB = getSizeDIB(bmpData);
-    std::vector<std::string> palette = getPalette(bmpData, sizeDIB, deep);
+    std::vector<std::vector<char>> palette = getPalette(bmpData, sizeDIB, deep);
     std::vector<char> contentFixed = fixContent(content, deepContent, deepFormat, width, height);
-    std::vector<std::string> renderList = getRenderList(contentFixed, palette);
+    std::vector<std::vector<char>> pixels = getPixels(contentFixed, palette);
     Bmp bmp = {
         contentStart,
         content,
@@ -146,6 +146,8 @@ Bmp bmpParser (const std::vector<char>& bmpData) {
         deep,
         sizeDIB,
         palette,
+        // TODO: 补充pixels的测试用例
+        pixels,
     };
 
     return bmp;

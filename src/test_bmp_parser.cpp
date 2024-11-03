@@ -48,26 +48,27 @@ void testBmpSizeDIB (const Bmp msg) {
 }
 
 void testPalette (const Bmp msg) {
-    std::vector<std::string> expect = {
-        "#000000",
-        "#ff0000",
-        "#00ff00",
-        "#0000ff",
-        "#000000",
-        "#000000",
-        "#000000",
-        "#000000",
-        "#000000",
-        "#000000",
-        "#000000",
-        "#000000",
-        "#000000",
-        "#000000",
-        "#000000",
-        "#000000",
+    // TODO: 目前结构是[b, g, r, x]，需要补充相应注释，最后一个看起来多了，记得处理一下
+    std::vector<std::vector<char>> expect = {
+        { 0, 0, 0, 0 },
+        { 0, 0, static_cast<char>(0xFF), 0 },
+        { 0, static_cast<char>(0xFF), 0, 0 },
+        { static_cast<char>(0xFF), 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0  },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
     };
-    std::vector<std::string> result = msg.palette;
-    ensure<std::vector<std::string>>(result, expect, "testBmpParser palette");
+    std::vector<std::vector<char>> result = msg.palette;
+    ensure<std::vector<std::vector<char>>>(result, expect, "testBmpParser palette");
 }
 
 void testBmpParser () {

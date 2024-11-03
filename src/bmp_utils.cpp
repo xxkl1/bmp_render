@@ -77,6 +77,29 @@ void ensure<std::vector<std::string>>(std::vector<std::string> result, std::vect
     std::cout << message << " tes success" << std::endl;
 }
 
+template <>
+void ensure<std::vector<std::vector<char>>>(std::vector<std::vector<char>> result, std::vector<std::vector<char>> expect, const char* message) {
+    if (result.size() != expect.size()) {
+        std::cout << message << " test size std::vector<std::vector<char>> fail" << std::endl;
+        return;
+    }
+    for (size_t i = 0; i < result.size(); ++i) {
+        std::vector<char> curExpect = expect[i];
+        std::vector<char> curResult = result[i];
+        if (curResult.size() != curExpect.size()) {
+            std::cout << message << " test std::vector<char> fail" << std::endl;
+            return;
+        }
+        for (size_t i = 0; i < curResult.size(); ++i) {
+            if (curResult[i] != curExpect[i]) {
+                std::cout << message << " test fail" << std::endl;
+                return;
+            }
+        }
+    }
+    std::cout << message << " tes success" << std::endl;
+}
+
 template<typename T>
 std::vector<std::vector<T>> chunkList (const std::vector<T>& list, size_t lenChunk) {
     std::vector<std::vector<T>> result;
