@@ -8,8 +8,6 @@
 #include <test_bmp_parser.hpp>
 
 int main() {
-
-
     // TODO: 迁移到test目录
     testToNumber();
     testBmpParser();
