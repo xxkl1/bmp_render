@@ -5,18 +5,18 @@
 #include <iostream>
 #include <fstream>
 #include <bmp_utils.hpp>
-struct Bmp {
+struct BMP {
     size_t contentStart;
-    std::vector<char> content;
+    std::vector<u_char> content;
     size_t compression;
     size_t width;
     size_t height;
     size_t deep;
     size_t sizeDIB;
-    std::vector<std::vector<char>> palette;
-    std::vector<std::vector<char>> pixels;
+    std::vector<std::vector<u_char>> palette;
+    std::vector<std::vector<u_char>> pixels;
 };
 
-Bmp bmpParser (const std::vector<char>& bmpData);
+BMP bmpParser (const std::vector<u_char>& bmpData);
 
 #endif

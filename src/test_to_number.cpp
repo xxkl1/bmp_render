@@ -1,7 +1,7 @@
 #include <test_to_number.hpp>
 
 void testToNumber1 () {
-    std::vector<char> input = {
+    std::vector<u_char> input = {
         0x01,
         0x02,
         0x03,
@@ -16,7 +16,7 @@ void testToNumber1 () {
 }
 
 void testToNumber2 () {
-    std::vector<char> input = {
+    std::vector<u_char> input = {
         0x01,
         0x02,
         0x03,
@@ -32,7 +32,7 @@ void testToNumber2 () {
 }
 
 void testToNumber3 () {
-    std::vector<char> input = {
+    std::vector<u_char> input = {
         0x01,
         0x02,
         0x03,
@@ -49,7 +49,7 @@ void testToNumber3 () {
 }
 
 void testToNumber4 () {
-    std::vector<char> input = {
+    std::vector<u_char> input = {
         0x01,
         0x02,
         0x03,
@@ -68,7 +68,7 @@ void testToNumber4 () {
 }
 
 void testToNumber5 () {
-    std::vector<char> input = {
+    std::vector<u_char> input = {
         0x01,
     };
 

@@ -8,26 +8,40 @@
 #include <test_bmp_parser.hpp>
 
 int main() {
-    // std::vector<char> buffer = readFile("./image_test/16bit_color_small.bmp");
+    std::vector<u_char> buffer = readFile("./image_test/16bit_color_small.bmp");
 
-    // bmpParser(buffer);
+    BMP bmp = bmpParser(buffer);
 
     // TODO: 迁移到test目录
     testToNumber();
     testBmpParser();
 
-    // sf::RenderWindow window(sf::VideoMode(800, 600), "bmp viewer");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "bmp viewer");
+    sf::VertexArray points(sf::Points);
 
-    // while (window.isOpen()) {
-    //     sf::Event event;
-    //     while (window.pollEvent(event)) {
-    //         if (event.type == sf::Event::Closed)
-    //             window.close();
-    //     }
+    for (size_t i = 0; i < bmp.pixels.size(); ++i) {
+        std::vector<u_char> pixel = bmp.pixels[i];
+        u_char r = pixel[2];
+        u_char g = pixel[1];
+        u_char b = pixel[0];
+        // 渲染顺序：从下到上，从右到左
+        size_t x = bmp.width - i % bmp.width;
+        size_t y = bmp.height - i / bmp.width;
+        points.append(sf::Vertex(sf::Vector2f(x, y), sf::Color(r, g, b)));
+    }
 
-    //     window.clear();
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
 
-    //     window.display();
-    // }
+        window.clear();
+
+        window.draw(points);
+
+        window.display();
+    }
     return 0;
 }
