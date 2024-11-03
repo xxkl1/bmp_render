@@ -94,14 +94,34 @@ std::vector<std::string> getPalette (const std::vector<char>& bmpData, size_t si
 std::vector<std::string> getRenderList (const std::vector<char> &content, const std::vector<std::string> &palette) {
     std::vector<char> l;
     for (const char c : content) {
-        l.push_back(c & 0x0F);
         l.push_back(c >> 4);
+        l.push_back(c & 0x0F);
     }
     std::vector<std::string> r;
     for (const char c : l) {
         r.push_back(palette[c]);
     }
     return r;
+}
+
+std::vector<char> fixContent (const std::vector<char>& content, const size_t deep, const size_t deepFormat, const size_t width, const size_t height) {
+    if (deep > 8 && deep <= 16 && deep != deepFormat) {
+        size_t pixelsCount = width * height;
+        float lenBytesOnePixel = static_cast<float>(deepFormat) / 8;
+        size_t lenBytesNeed = static_cast<size_t>(std::floor(lenBytesOnePixel * pixelsCount));
+        size_t lenC = content.size();
+        size_t lenDiff = lenC - lenBytesNeed;
+        lenDiff = lenDiff / 2;
+        std::vector<std::vector<char>> contentChunk = chunkList<char>(content, lenC / 2);
+        std::vector<char> r;
+        for (const std::vector<char> c : contentChunk) {
+            std::vector<char> contentCut(c.begin(), c.begin() + (c.size() - lenDiff));
+            r.insert(r.end(), contentCut.begin(), contentCut.end());
+        }
+        return r;
+    } else {
+        return content;
+    }
 }
 
 Bmp bmpParser (const std::vector<char>& bmpData) {
@@ -115,8 +135,8 @@ Bmp bmpParser (const std::vector<char>& bmpData) {
     size_t deep = getDeep(deepContent, deepFormat);
     size_t sizeDIB = getSizeDIB(bmpData);
     std::vector<std::string> palette = getPalette(bmpData, sizeDIB, deep);
-    std::vector<std::string> renderList = getRenderList(content, palette);
-    // TODO: 添加fixContent，现在得到的content长度是8，不正确，需要变成2
+    std::vector<char> contentFixed = fixContent(content, deepContent, deepFormat, width, height);
+    std::vector<std::string> renderList = getRenderList(contentFixed, palette);
     Bmp bmp = {
         contentStart,
         content,
