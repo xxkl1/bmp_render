@@ -8,17 +8,18 @@
 #include <test_bmp_parser.hpp>
 
 int main() {
-    std::vector<u_char> buffer = readFile("./image_test/16bit_color_small.bmp");
 
-    BMP bmp = bmpParser(buffer);
 
     // TODO: 迁移到test目录
     testToNumber();
     testBmpParser();
+ 
+    // bmp解析
+    std::vector<u_char> buffer = readFile("./image_test/16bit_color_small.bmp");
+    BMP bmp = bmpParser(buffer);
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "bmp viewer");
+    // bmp像素转sfml像素
     sf::VertexArray points(sf::Points);
-
     for (size_t i = 0; i < bmp.pixels.size(); ++i) {
         std::vector<u_char> pixel = bmp.pixels[i];
         u_char r = pixel[2];
@@ -30,6 +31,8 @@ int main() {
         points.append(sf::Vertex(sf::Vector2f(x, y), sf::Color(r, g, b)));
     }
 
+    // 渲染
+    sf::RenderWindow window(sf::VideoMode(800, 600), "bmp viewer");
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
