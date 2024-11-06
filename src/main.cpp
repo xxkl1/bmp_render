@@ -12,9 +12,9 @@ void test () {
     testBmpParser();
 }
 
-void render () {
+void render (const std::string& filePath) {
     // bmp解析
-    std::vector<u_char> buffer = readFile("./image/24bit_color.bmp");
+    std::vector<u_char> buffer = readFile(filePath);
     BMP bmp = bmpParser(buffer);
 
     // bmp像素转sfml像素
@@ -25,7 +25,7 @@ void render () {
         u_char g = pixel[1];
         u_char b = pixel[0];
         // 渲染顺序：从下到上，从右到左
-        size_t x = i % bmp.width;
+        size_t x = i % bmp.width + 1;
         size_t y = bmp.height - i / bmp.width;
         points.append(sf::Vertex(sf::Vector2f(x, y), sf::Color(r, g, b)));
     }
@@ -49,6 +49,6 @@ void render () {
 
 int main() {
     test();
-    render();
+    render("./image/24bit_color.bmp");
     return 0;
 }
