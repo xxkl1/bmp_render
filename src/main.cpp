@@ -7,11 +7,12 @@
 #include <test_to_number.hpp>
 #include <test_bmp_parser.hpp>
 
-int main() {
-    // TODO: 迁移到test目录
+void test () {
     testToNumber();
     testBmpParser();
- 
+}
+
+void render () {
     // bmp解析
     std::vector<u_char> buffer = readFile("./image_test/24bit_color.bmp");
     BMP bmp = bmpParser(buffer);
@@ -44,5 +45,10 @@ int main() {
 
         window.display();
     }
+}
+
+int main() {
+    test();
+    render();
     return 0;
 }
