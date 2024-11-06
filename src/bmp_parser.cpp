@@ -70,38 +70,41 @@ std::string colorStrRender (const std::vector<u_char>& chunk) {
 }
 
 std::vector<std::vector<u_char>> getPalette (const std::vector<u_char>& bmpData, size_t sizeDIB, size_t deep) {
-    // 调色板一个色为4个字节
-    size_t lenBytesOneColor = 4;
-    size_t lenPalette = getLenPalette(bmpData, deep);
-
-    // TODO: 删除这个临时测试
-    size_t expectLenPalette = 16;
-    ensure(lenPalette, expectLenPalette, "test lenPalette");
-    
-    // 一般来说调色板的开始是DIB头的结束，0x0e是DIB头的开始
-    size_t start = 0x0e + sizeDIB;
-    size_t end = start + lenPalette * lenBytesOneColor;
-    std::vector<u_char> l = getSubVector(bmpData, start, end);
-    std::vector<std::vector<u_char>> chunks = chunkList<u_char>(l, lenBytesOneColor);
-
     std::vector<std::vector<u_char>> r;
-    for (const std::vector<u_char> chunk : chunks) {
-        r.push_back(chunk);
+    if (deep == 4) {
+        // 调色板一个色为4个字节
+        size_t lenBytesOneColor = 4;
+        size_t lenPalette = getLenPalette(bmpData, deep);
+        
+        // 一般来说调色板的开始是DIB头的结束，0x0e是DIB头的开始
+        size_t start = 0x0e + sizeDIB;
+        size_t end = start + lenPalette * lenBytesOneColor;
+        std::vector<u_char> l = getSubVector(bmpData, start, end);
+        std::vector<std::vector<u_char>> chunks = chunkList<u_char>(l, lenBytesOneColor);
+
+        for (const std::vector<u_char> chunk : chunks) {
+            r.push_back(chunk);
+        }
+        return r;
     }
     return r;
 }
 
-std::vector<std::vector<u_char>> getPixels (const std::vector<u_char> &content, const std::vector<std::vector<u_char>> &palette) {
-    std::vector<u_char> l;
-    for (const u_char c : content) {
-        l.push_back(c & 0x0F);
-        l.push_back(c >> 4);
+std::vector<std::vector<u_char>> getPixels (const std::vector<u_char> &content, size_t deep, std::vector<std::vector<u_char>> &palette) {
+    if (deep == 4) {
+        std::vector<u_char> l;
+        for (const u_char c : content) {
+            l.push_back(c & 0x0F);
+            l.push_back(c >> 4);
+        }
+        std::vector<std::vector<u_char>> r;
+        for (const u_char c : l) {
+            r.push_back(palette[c]);
+        }
+        return r;
+    } else {
+        return chunkList<u_char>(content, deep / 8);
     }
-    std::vector<std::vector<u_char>> r;
-    for (const u_char c : l) {
-        r.push_back(palette[c]);
-    }
-    return r;
 }
 
 std::vector<u_char> fixContent (const std::vector<u_char>& content, const size_t deep, const size_t deepFormat, const size_t width, const size_t height) {
@@ -136,7 +139,7 @@ BMP bmpParser (const std::vector<u_char>& bmpData) {
     size_t sizeDIB = getSizeDIB(bmpData);
     std::vector<std::vector<u_char>> palette = getPalette(bmpData, sizeDIB, deep);
     std::vector<u_char> contentFixed = fixContent(content, deepContent, deepFormat, width, height);
-    std::vector<std::vector<u_char>> pixels = getPixels(contentFixed, palette);
+    std::vector<std::vector<u_char>> pixels = getPixels(contentFixed, deep, palette);
     BMP bmp = {
         contentStart,
         content,
