@@ -14,7 +14,7 @@ void test () {
 
 void render () {
     // bmp解析
-    std::vector<u_char> buffer = readFile("./image_test/24bit_color.bmp");
+    std::vector<u_char> buffer = readFile("./image/24bit_color.bmp");
     BMP bmp = bmpParser(buffer);
 
     // bmp像素转sfml像素

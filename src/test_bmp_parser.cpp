@@ -1,7 +1,7 @@
 #include <test_bmp_parser.hpp>
 
 BMP getBmpMsg () {
-    std::vector<u_char> buffer = readFile("./image_test/16bit_color_small.bmp");
+    std::vector<u_char> buffer = readFile("./image/16bit_color_small.bmp");
     return bmpParser(buffer);
 }
 
