@@ -2,7 +2,7 @@
 
 ![描述文本](example/image.png)
 
-# how To Run
+# how to run
 ```
 make && ./bin/main
 ```
