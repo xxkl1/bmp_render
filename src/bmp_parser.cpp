@@ -94,8 +94,8 @@ std::vector<std::vector<u_char>> getPixels (const std::vector<u_char> &content, 
     if (deep == 4) {
         std::vector<u_char> l;
         for (const u_char c : content) {
-            l.push_back(c & 0x0F);
             l.push_back(c >> 4);
+            l.push_back(c & 0x0F);
         }
         std::vector<std::vector<u_char>> r;
         for (const u_char c : l) {
