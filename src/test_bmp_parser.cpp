@@ -48,7 +48,6 @@ void testBmpSizeDIB (const BMP msg) {
 }
 
 void testPalette (const BMP msg) {
-    // TODO: 目前结构是[b, g, r, x]，需要补充相应注释，最后一个看起来多了，记得处理一下
     std::vector<std::vector<u_char>> expect = {
         { 0, 0, 0, 0 },
         { 0, 0, static_cast<u_char>(0xFF), 0 },

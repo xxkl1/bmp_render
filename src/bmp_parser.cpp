@@ -69,6 +69,9 @@ std::string colorStrRender (const std::vector<u_char>& chunk) {
     return "#" + charToHexString(chunk[2]) + charToHexString(chunk[1]) + charToHexString(chunk[0]);
 }
 
+/**
+ * 返回格式为[[b, g, r, x], ....]，x位无意义，标准bmp不支持透明度
+ */
 std::vector<std::vector<u_char>> getPalette (const std::vector<u_char>& bmpData, size_t sizeDIB, size_t deep) {
     std::vector<std::vector<u_char>> r;
     if (deep == 4 || deep == 8) {
