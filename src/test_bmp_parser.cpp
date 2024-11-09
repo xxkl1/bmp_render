@@ -71,6 +71,17 @@ void testPalette (const BMP msg) {
     ensure<std::vector<std::vector<u_char>>>(result, expect, "testBmpParser palette");
 }
 
+void testPixels (const BMP msg) {
+    std::vector<std::vector<u_char>> expect = {
+        { static_cast<u_char>(0xFF), 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, static_cast<u_char>(0xFF), 0 },
+        { 0, static_cast<u_char>(0xFF), 0, 0 },
+    };
+    std::vector<std::vector<u_char>> result = msg.pixels;
+    ensure<std::vector<std::vector<u_char>>>(result, expect, "testBmpParser pixels");
+}
+
 void testBmpParser () {
     BMP msg = getBmpMsg();
     testBmpParserContentStart(msg);
@@ -81,4 +92,5 @@ void testBmpParser () {
     testBmpParserDeep(msg);
     testBmpSizeDIB(msg);
     testPalette(msg);
+    testPixels(msg);
 }

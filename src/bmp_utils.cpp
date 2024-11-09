@@ -105,7 +105,7 @@ void ensure<std::vector<std::vector<u_char>>>(std::vector<std::vector<u_char>> r
             }
         }
     }
-    std::cout << message << " tes success" << std::endl;
+    std::cout << message << " test success" << std::endl;
 }
 
 template<typename T>

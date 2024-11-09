@@ -155,7 +155,6 @@ BMP bmpParser (const std::vector<u_char>& bmpData) {
         deep,
         sizeDIB,
         palette,
-        // TODO: 补充pixels的测试用例
         pixels,
     };
 
