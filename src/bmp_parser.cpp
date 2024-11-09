@@ -71,7 +71,7 @@ std::string colorStrRender (const std::vector<u_char>& chunk) {
 
 std::vector<std::vector<u_char>> getPalette (const std::vector<u_char>& bmpData, size_t sizeDIB, size_t deep) {
     std::vector<std::vector<u_char>> r;
-    if (deep == 4) {
+    if (deep == 4 || deep == 8) {
         // 调色板一个色为4个字节
         size_t lenBytesOneColor = 4;
         size_t lenPalette = getLenPalette(bmpData, deep);
@@ -99,6 +99,12 @@ std::vector<std::vector<u_char>> getPixels (const std::vector<u_char> &content, 
         }
         std::vector<std::vector<u_char>> r;
         for (const u_char c : l) {
+            r.push_back(palette[c]);
+        }
+        return r;
+    } else if (deep == 8) {
+        std::vector<std::vector<u_char>> r;
+        for (const u_char c : content) {
             r.push_back(palette[c]);
         }
         return r;
