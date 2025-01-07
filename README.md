@@ -1,4 +1,4 @@
-# BMP image viewer
+# BMP image render
 
 A BMP image render support 4bit ~ 32bit color.
 
